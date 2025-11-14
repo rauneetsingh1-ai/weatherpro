@@ -1,7 +1,5 @@
-/* script.js - WeatherPro Global */
+/* script.js - WeatherPro Global (PRODUCTION VERSION FOR VERCEL) */
 
-const API_KEY = "9739b38346e2465baa2163628251311";
-const API_URL = "https://api.weatherapi.com/v1/forecast.json";
 const DAYS = 7;
 const DEFAULT_CITY = "Delhi";
 
@@ -52,26 +50,29 @@ function getAQILabel(aqi) {
   return 'Hazardous';
 }
 
-// Fetch Weather
+// Fetch Weather using Vercel serverless function
 async function fetchWeather(q) {
   showLoader();
+  
   try {
-    // For preview: use CORS proxy
-    // For production: use direct URL or serverless function
-    const corsProxy = "https://api.allorigins.win/raw?url=";
-    const url = `${corsProxy}${encodeURIComponent(
-      `${API_URL}?key=${API_KEY}&q=${encodeURIComponent(q)}&days=${DAYS}&aqi=yes&alerts=yes`
-    )}`;
+    // Use the serverless function endpoint
+    const url = `/api/weather?q=${encodeURIComponent(q)}&days=${DAYS}&aqi=yes&alerts=yes`;
     
+    console.log("Fetching weather for:", q);
     const res = await fetch(url);
     
-    if (!res.ok) throw new Error("City not found");
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to fetch weather data");
+    }
     
     const data = await res.json();
+    console.log("Weather data loaded successfully:", data);
     renderAll(data);
+    
   } catch (err) {
-    alert("Weather error: " + err.message);
-    console.error(err);
+    console.error("Weather fetch error:", err);
+    alert("Unable to fetch weather data: " + err.message);
   } finally {
     hideLoader();
   }
