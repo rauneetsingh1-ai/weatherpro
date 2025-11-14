@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WeatherPro Global – Weather App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+        </svg>
+        WeatherPro Global
+      </div>
+      <div class="controls">
+        <button id="themeBtn" title="Toggle theme">🌙</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="search-card card">
+        <div class="search-row">
+          <input id="searchInput" placeholder="Search any city worldwide..." />
+          <button id="searchBtn">Search</button>
+          <button id="locBtn" title="Use my location">📍</button>
+        </div>
+        
+        <div class="world-cities">
+          <h3 class="world-title">🌍 Popular Cities Worldwide</h3>
+          <div class="quick-grid">
+            <button class="quick" data-q="Delhi">🇮🇳 Delhi</button>
+            <button class="quick" data-q="Mumbai">🇮🇳 Mumbai</button>
+            <button class="quick" data-q="London">🇬🇧 London</button>
+            <button class="quick" data-q="New York">🇺🇸 New York</button>
+            <button class="quick" data-q="Tokyo">🇯🇵 Tokyo</button>
+            <button class="quick" data-q="Paris">🇫🇷 Paris</button>
+            <button class="quick" data-q="Dubai">🇦🇪 Dubai</button>
+            <button class="quick" data-q="Singapore">🇸🇬 Singapore</button>
+            <button class="quick" data-q="Sydney">🇦🇺 Sydney</button>
+            <button class="quick" data-q="Toronto">🇨🇦 Toronto</button>
+            <button class="quick" data-q="Berlin">🇩🇪 Berlin</button>
+            <button class="quick" data-q="Moscow">🇷🇺 Moscow</button>
+            <button class="quick" data-q="Beijing">🇨🇳 Beijing</button>
+            <button class="quick" data-q="Seoul">🇰🇷 Seoul</button>
+            <button class="quick" data-q="Bangkok">🇹🇭 Bangkok</button>
+            <button class="quick" data-q="Istanbul">🇹🇷 Istanbul</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="currentCard" class="card current-card">
+        <div class="location-header">
+          <span class="pin-icon">📍</span>
+          <h2 id="location">Loading...</h2>
+        </div>
+
+        <div class="weather-main">
+          <div class="left">
+            <div class="iconWrap">
+              <lottie-player id="currentIcon" autoplay loop></lottie-player>
+            </div>
+            <div class="temp" id="temp">--°C</div>
+            <p id="condition" class="condition-text">--</p>
+            <p class="feels-text">Feels like <span id="feels">--°C</span></p>
+          </div>
+
+          <div class="right">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-icon">💨</div>
+                <div class="stat-label">Wind</div>
+                <div class="stat-value"><span id="wind">--</span> km/h</div>
+                <div class="stat-extra" id="windDir">--</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-icon">💧</div>
+                <div class="stat-label">Humidity</div>
+                <div class="stat-value"><span id="humidity">--</span>%</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-icon">👁️</div>
+                <div class="stat-label">Visibility</div>
+                <div class="stat-value"><span id="visibility">--</span> km</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-icon">🌡️</div>
+                <div class="stat-label">Pressure</div>
+                <div class="stat-value"><span id="pressure">--</span> mb</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sun-times">
+          <div class="sun-card">
+            <span class="sun-icon">🌅</span>
+            <div>
+              <div class="sun-label">Sunrise</div>
+              <div class="sun-time" id="sunrise">--</div>
+            </div>
+          </div>
+          <div class="sun-card">
+            <span class="sun-icon">🌇</span>
+            <div>
+              <div class="sun-label">Sunset</div>
+              <div class="sun-time" id="sunset">--</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="aqiSection" class="aqi-section" style="display:none">
+          <div class="aqi-card">
+            <div class="aqi-label">Air Quality Index</div>
+            <div class="aqi-main">
+              <div class="aqi-value" id="aqi">--</div>
+              <div>
+                <div class="aqi-status" id="aqiStatus">--</div>
+                <div class="aqi-pm">PM2.5: <span id="pm25">--</span> μg/m³</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card forecast-section">
+        <h3>7-Day Forecast</h3>
+        <div id="forecast" class="forecast"></div>
+      </section>
+    </main>
+
+    <div id="loader" class="loader hidden">
+      <div class="spinner"></div>
+      <p>Loading weather data...</p>
+    </div>
+
+    <footer class="footer">
+      Built with ❤️ • Global Weather • Production Ready
+    </footer>
+  </div>
+</body>
+</html>
